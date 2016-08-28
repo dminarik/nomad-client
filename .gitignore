@@ -1,0 +1,5 @@
+#Gradle files
+.gradle
+
+#IntelliJ files
+.idea
