@@ -15,5 +15,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
 
+    // https://mvnrepository.com/artifact/org.springframework/spring-test
+    compile group: 'org.springframework', name: 'spring-test', version: '4.3.2.RELEASE'
+    // JUnit
     testCompile('junit:junit:4.11')
 }
