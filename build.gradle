@@ -2,6 +2,7 @@ group 'tk.minarik'
 version '0.1-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: NomadPlugin
 
 sourceCompatibility = 1.8
 
@@ -14,9 +15,13 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-web', version: '4.3.2.RELEASE'
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.1'
 
     // https://mvnrepository.com/artifact/org.springframework/spring-test
     compile group: 'org.springframework', name: 'spring-test', version: '4.3.2.RELEASE'
     // JUnit
-    testCompile('junit:junit:4.11')
+    testCompile('junit:junit:4.12')
 }
+
+test.dependsOn("runNomad")

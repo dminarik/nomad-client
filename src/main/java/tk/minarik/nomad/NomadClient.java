@@ -1,7 +1,9 @@
 package tk.minarik.nomad;
 
+import org.springframework.web.client.RestTemplate;
 import tk.minarik.nomad.data.*;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -527,7 +529,8 @@ public class NomadClient {
      */
     public Collection<String> getRegions(){
         //TODO: Implement get regions method
-        return null;
+        RestTemplate template = new RestTemplate();
+        return Arrays.asList(template.getForObject(calculateUrl("v1/regions"), String[].class));
     }
 
     /**
@@ -596,6 +599,15 @@ public class NomadClient {
      */
     public void reconcileSummaries(String region){
         //TODO: Implement reconcile summaries with region method
+    }
+
+    /**
+     * Calculate full URL with hostname, port and resource path
+     *
+     * @param resource Resource path
+     */
+    private String calculateUrl(String resource) {
+        return String.format("http://%s:%d/%s", server, port, resource);
     }
 
 }
