@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -23,7 +24,12 @@ class NomadPlugin implements Plugin<Project> {
             doLast {
                 ant.mkdir(dir: "build/nomad")
                 ant.mkdir(dir: "build/nomad/install")
-                ant.get(src: WINDOWS_DOWNLOAD_URL, dest: DOWNLOAD_TARGET)
+                if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+                    ant.get(src: WINDOWS_DOWNLOAD_URL, dest: DOWNLOAD_TARGET)
+                }
+                if(Os.isFamily(Os.FAMILY_UNIX)){
+                    ant.get(src: LINUX_DOWNLOAD_URL, dest: DOWNLOAD_TARGET)
+                }
             }
         }
 
@@ -35,7 +41,13 @@ class NomadPlugin implements Plugin<Project> {
         }
 
         project.task("runNomad", dependsOn: "unpackNomad") << {
-            def builder = new ProcessBuilder("build\\nomad\\nomad", "agent", "--dev")
+            ProcessBuilder builder = null;
+            if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+                new ProcessBuilder("build\\nomad\\nomad", "agent", "--dev")
+            }
+            if(Os.isFamily(Os.FAMILY_UNIX)){
+                new ProcessBuilder("build/nomad/nomad", "agent", "--dev")
+            }
             process = builder.start();
             Thread.sleep(10000)
         }
