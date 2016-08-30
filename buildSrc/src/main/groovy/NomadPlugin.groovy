@@ -46,7 +46,7 @@ class NomadPlugin implements Plugin<Project> {
                 builder = new ProcessBuilder("build\\nomad\\nomad", "agent", "--dev")
             }
             if(Os.isFamily(Os.FAMILY_UNIX)){
-                ant.chmod(file: file("build/nomad/nomad"), perm: "ugo+x")
+                ant.chmod(file: new File("build/nomad/nomad"), perm: "ugo+x")
                 builder = new ProcessBuilder("build/nomad/nomad", "agent", "--dev")
             }
             process = builder.start();
