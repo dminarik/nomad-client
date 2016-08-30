@@ -31,4 +31,5 @@ jacocoTestReport {
         html.enabled false
     }
 }
-test.dependsOn("runNomad")
+test.dependsOn runNomad
+check.dependsOn jacocoTestReport
