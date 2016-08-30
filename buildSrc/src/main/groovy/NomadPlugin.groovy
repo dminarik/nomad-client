@@ -26,7 +26,8 @@ class NomadPlugin implements Plugin<Project> {
                 ant.mkdir(dir: "build/nomad/install")
                 if(Os.isFamily(Os.FAMILY_WINDOWS)) {
                     ant.get(src: WINDOWS_DOWNLOAD_URL, dest: DOWNLOAD_TARGET)
-                }else{
+                }
+                if(Os.isFamily(Os.FAMILY_UNIX)){
                     ant.get(src: LINUX_DOWNLOAD_URL, dest: DOWNLOAD_TARGET)
                 }
             }
@@ -42,9 +43,10 @@ class NomadPlugin implements Plugin<Project> {
         project.task("runNomad", dependsOn: "unpackNomad") << {
             ProcessBuilder builder = null;
             if(Os.isFamily(Os.FAMILY_WINDOWS)) {
-                new ProcessBuilder("build\\nomad\\nomad", "agent", "--dev")
-            }else{
-                new ProcessBuilder("build/nomad/nomad", "agent", "--dev")
+                builder = new ProcessBuilder("build\\nomad\\nomad", "agent", "--dev")
+            }
+            if(Os.isFamily(Os.FAMILY_UNIX)){
+                builder = new ProcessBuilder("build/nomad/nomad", "agent", "--dev")
             }
             process = builder.start();
             Thread.sleep(10000)
