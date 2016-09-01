@@ -25,12 +25,12 @@ public class Constraint {
      * See the table of attributes <a href="https://www.nomadproject.io/docs/jobspec/interpreted.html#interpreted_node_vars">here</a>.
      */
     @JsonProperty("LTarget")
-    private String lTarget;
+    protected String lTarget;
     /**
      * Specifies the value to compare the attribute against. This can be a literal value, another attribute or a regular expression if the Operator is in "regexp" mode.
      */
     @JsonProperty("rTarget")
-    private String rTarget;
+    protected String rTarget;
     /**
      * Operand - Specifies the test to be performed on the two targets. It takes on the following values:
      * <p>
@@ -44,7 +44,7 @@ public class Constraint {
     @JsonProperty("Operand")
     @JsonSerialize(using = OperandSerializer.class)
     @JsonDeserialize(using = OperandDeserializer.class)
-    private Operand operand;
+    protected Operand operand;
 
     public enum Operand {
         Regexp("regexp"),
