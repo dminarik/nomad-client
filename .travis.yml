@@ -31,6 +31,6 @@ addons:
       name: "dminarik/nomad-client"
       description: "<Your project description here>"
     notification_email: darkominarik@gmail.com
-    build_command_prepend: "<Your build preprocessing command here>"
-    build_command:   "<Your build command here>"
-    branch_pattern: coverity_scan
+    build_command_prepend: "./gradlew"
+    build_command:   "compile"
+    branch_pattern: master
