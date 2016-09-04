@@ -32,4 +32,4 @@ addons:
     notification_email: darkominarik@gmail.com
     build_command_prepend: "gradle clean"
     build_command:   "gradle compileJava"
-    branch_pattern: master
+    branch_pattern: coverity_scan
