@@ -3,6 +3,12 @@ language: java
 jdk:
   - oraclejdk8
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "BsLNHELWQ2+JnZ8yb3XHpzS5Mp2K1AJTlEXLEhR9gGgckwVOiBFBDj354je5md/9c4QzmCQQy4sianwqVGfsjU3O8/3tGBwVCPwuLauoycIU5FkeBu+JXujfNT12gFOAC8/7oAwTEnBzMeagrhFjB8Eyo1Xq85ubHVkc1ocU0OHa5yQUhVZaEB1DBhU8Wmt93ODYkpKfjBopZ6z8maEWZhIMs59Q8AIFnkamIvNKXMqBPEhULUuOMgsH3AeRJZn2SBffZSXPx7y5jLMqCMoMLvUL8vDdtq/B+EOwFV41GoL6WL1mrwhfJ5iddLq/2mnboq7n6rYEA/udr4mKKdHSow3DC9rTm8VCWGScIXEXlpgGyCgT3JtR7O89CjG+BCj07fKQK92hywsN13jRMVzEeShDBo+xtY1Ox+VkCE4NLNNZX7ZwSJcPNyvW3bOY3u6jUzxtMyEmfuy5e5fZgEpqOyelnZFRkaWQZAvpf1SNSj4dWikC2aboIvSD0R6qVbKRo13t6q4DNY5c8LNcgOTSay9q8SlkXoQLeUlQt4H1Dy4DE7UfZk0/zh3iiVltyuV9Qgn7xkdxDdrkCB3p6Xu3xVNR1cPNPrKEhhmEZ9MKNy+Vb1ERY6ry+9QEIoZEdrSAjhaWFAIukAs/EF1eqN4ylFL5GgvJ9QAFE76hRXNvaUs="
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -18,19 +24,13 @@ before_install:
 after_success:
   - codecov
   - bash <(curl -s https://codecov.io/bash)
-  
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "SoSCiTJTeac8qBPF7Qg9jq9XyGwPvRAFJQi8Y7NUE9jiNV+TIuQ9C5LfNKjPKs08eGiTm0bneu9YumjN8EdW3OJ8kqnqQZd3q7mA38JBGWyg1QUu3817+SF51dCnoYaaejQigZ3P3n4QZJleoT5tc7Qc3Gf3zOngAlGV2gIx5YAF3CqWRDpeslGhEsypZDfvO1Vkq4rNcWnx2M1HfyTKI1wx8TTksTkglCm9rQH4L1XZRuSwlA8YGDX1AV7MgHnil8GftDGwUHJWN7VlNGflHcp+b4a9qBZKniFZ4AfTQHZ8o2Ic7YbqTpN9qDtXXLVD4xUNzqg3rmHpnR2l40d2+9mC6I5zMrR+GjhODkbR4R/953+5caKc52n8s3+pTlmLHm8AJIRkBE0WgRfB3AnJ4OWsY3rfB7XYndrnbkxd5wlHtyL/iI/UFZFAZK+a3UClh6sxl8dg83usJQNHDriG7FyJWfxWMMkxm233etjk+073ahGDAy1yzDkrP/nMi1/JcgX4uhuc0FrPU5npiKsAAz6EdzDi8DZHIMfhCFePskpEf1ajSK50sbYUyq+fN3klP+QCdKvHXNLzhKxf6emWY0JGKwW7VFj9G+Ql+KsQzwa1UTtEDI5K8kyW2NZo6WczMZWeky57C+CAxFG0LxFF8W/WlX7jL6cJyMup3rEqQLc="
-   
+
 addons:
   coverity_scan:
     project:
       name: "dminarik/nomad-client"
       description: "<Your project description here>"
     notification_email: darkominarik@gmail.com
-    build_command_prepend: "./gradlew"
-    build_command:   "compile"
+    build_command_prepend: "./gradlew clean"
+    build_command:   "./gradlew compile"
     branch_pattern: master
