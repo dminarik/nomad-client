@@ -22,7 +22,6 @@ before_install:
   - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 after_success:
-  - codecov
   - bash <(curl -s https://codecov.io/bash)
 
 addons:
@@ -31,6 +30,6 @@ addons:
       name: "dminarik/nomad-client"
       description: "<Your project description here>"
     notification_email: darkominarik@gmail.com
-    build_command_prepend: "./gradlew clean"
-    build_command:   "./gradlew compile"
+    build_command_prepend: "gradle clean"
+    build_command:   "gradle compile"
     branch_pattern: master
