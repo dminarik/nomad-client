@@ -88,7 +88,16 @@ public class NomadClient {
      * @return
      */
     public Job getJob(String id) {
-        return template.getForObject(calculateUrl("v1/job/" + id), Job.class);
+        try {
+            return template.getForObject(calculateUrl("v1/job/" + id), Job.class);
+        }catch (HttpClientErrorException e){
+            switch (e.getStatusCode()){
+                case NOT_FOUND:
+                    return null;
+                default:
+                    throw e;
+            }
+        }
     }
 
     /**

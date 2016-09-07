@@ -76,4 +76,26 @@ public class DockerTaskTests {
         assertEquals(confirmJob.getTaskGroups().get(0).getTasks().get(0).getName(), "helloWorld2");
     }
 
+    @Test
+    public void test004_deleteDockerTask() throws Exception{
+        Job job = new Job("TestJobId", "TestJobName", Arrays.asList("dc1"));
+
+        TaskGroup helloWorldTaskGroup = new TaskGroup("helloWorld");
+        job.getTaskGroups().add(helloWorldTaskGroup);
+
+        Resources resources = new Resources();
+        DockerTask helloWorldTask = new DockerTask("helloWorld", "hello-world", resources);
+        helloWorldTaskGroup.getTasks().add(helloWorldTask);
+
+        nomadClient.createJob(job);
+
+        Job confirmJob1 = nomadClient.getJob("TestJobId");
+        assertNotNull(confirmJob1);
+
+        nomadClient.deleteJob("TestJobId");
+
+        Job confirmJob2 = nomadClient.getJob("TestJobId");
+        assertNull(confirmJob2);
+    }
+
 }
