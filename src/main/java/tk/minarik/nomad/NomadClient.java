@@ -2,6 +2,7 @@ package tk.minarik.nomad;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import tk.minarik.nomad.data.*;
@@ -10,9 +11,7 @@ import tk.minarik.nomad.data.request.CreateJobRequest;
 import tk.minarik.nomad.data.request.ModifyJobRequest;
 import tk.minarik.nomad.data.response.CreateJobResponse;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Nomad client can be used for accessing Nomad HTTP API
@@ -90,8 +89,8 @@ public class NomadClient {
     public Job getJob(String id) {
         try {
             return template.getForObject(calculateUrl("v1/job/" + id), Job.class);
-        }catch (HttpClientErrorException e){
-            switch (e.getStatusCode()){
+        } catch (HttpClientErrorException e) {
+            switch (e.getStatusCode()) {
                 case NOT_FOUND:
                     return null;
                 default:
@@ -114,7 +113,7 @@ public class NomadClient {
     /**
      * Create new job in current region
      *
-     * @param job   Job definition
+     * @param job Job definition
      * @return
      */
     public CreateJobResponse createJob(Job job) {
@@ -123,8 +122,8 @@ public class NomadClient {
                     new CreateJobRequest(job),
                     CreateJobResponse.class);
             return response.getBody();
-        }catch (HttpClientErrorException e){
-            switch (e.getStatusCode()){
+        } catch (HttpClientErrorException e) {
+            switch (e.getStatusCode()) {
                 case BAD_REQUEST:
                     throw new InvalidJobException(job);
                 case INTERNAL_SERVER_ERROR:
@@ -151,7 +150,7 @@ public class NomadClient {
     /**
      * Modify existing job in current region
      *
-     * @param job   Job definition
+     * @param job Job definition
      * @return
      */
     public void modifyJob(Job job) {
@@ -615,8 +614,8 @@ public class NomadClient {
      * @return
      */
     public String getLeader() {
-        //TODO: Implement get leader method
-        return null;
+        String leader = template.getForObject(calculateUrl("v1/status/leader"), String.class);
+        return leader.substring(1, leader.length()-1);
     }
 
     /**
@@ -626,8 +625,8 @@ public class NomadClient {
      * @return
      */
     public String getLeader(String region) {
-        //TODO: Implement get leader with region method
-        return null;
+        String leader = template.getForObject(calculateUrl("v1/status/leader?region=" + region), String.class);
+        return leader.substring(1, leader.length()-1);
     }
 
     /**
@@ -635,9 +634,8 @@ public class NomadClient {
      *
      * @return
      */
-    public Collection<String> getPeers() {
-        //TODO: Implement get peers method
-        return null;
+    public List<String> getPeers() {
+        return Arrays.asList(template.getForObject(calculateUrl("v1/status/peers"), String[].class));
     }
 
     /**
@@ -646,9 +644,8 @@ public class NomadClient {
      * @param region Region name
      * @return
      */
-    public Collection<String> getPeers(String region) {
-        //TODO: Implement get peers with regions method
-        return null;
+    public List<String> getPeers(String region) {
+        return Arrays.asList(template.getForObject(calculateUrl("v1/status/peers?region=" + region), String[].class));
     }
 
     /**
@@ -664,7 +661,7 @@ public class NomadClient {
      * @param region Region name
      */
     public void garbageCollect(String region) {
-        template.put(calculateUrl("v1/system/gc?region="+region), null);
+        template.put(calculateUrl("v1/system/gc?region=" + region), null);
     }
 
     /**
@@ -680,7 +677,7 @@ public class NomadClient {
      * @param region Region name
      */
     public void reconcileSummaries(String region) {
-        template.put(calculateUrl("v1/system/reconcile/summaries?region="+region), null);
+        template.put(calculateUrl("v1/system/reconcile/summaries?region=" + region), null);
     }
 
     /**

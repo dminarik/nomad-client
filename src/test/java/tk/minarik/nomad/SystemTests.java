@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * Created by darko on 8.9.2016..
  */
-public class SystemTest {
+public class SystemTests {
 
     private NomadClient nomadClient = new NomadClient();
 
