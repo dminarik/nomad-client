@@ -100,16 +100,8 @@ public class Constraint {
      * Deserialize operand from a symbol
      */
     private static class OperandDeserializer extends StdDeserializer<Operand> {
-        public OperandDeserializer(Class<?> vc) {
-            super(vc);
-        }
-
-        public OperandDeserializer(JavaType valueType) {
-            super(valueType);
-        }
-
-        public OperandDeserializer(StdDeserializer<?> src) {
-            super(src);
+        public OperandDeserializer() {
+            super(Operand.class);
         }
 
         @Override

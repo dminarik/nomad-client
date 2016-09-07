@@ -108,16 +108,8 @@ public class Check {
      * Deserializes check type from deserialized form
      */
     private static class TypeDeserializer extends StdDeserializer<Type> {
-        public TypeDeserializer(Class<?> vc) {
-            super(vc);
-        }
-
-        public TypeDeserializer(JavaType valueType) {
-            super(valueType);
-        }
-
-        public TypeDeserializer(StdDeserializer<?> src) {
-            super(src);
+        public TypeDeserializer() {
+            super(Type.class);
         }
 
         @Override
@@ -156,16 +148,8 @@ public class Check {
      * Deserializes protocol type from decapitalized form
      */
     private static class ProtocolDeserializer extends StdDeserializer<Protocol> {
-        public ProtocolDeserializer(Class<?> vc) {
-            super(vc);
-        }
-
-        public ProtocolDeserializer(JavaType valueType) {
-            super(valueType);
-        }
-
-        public ProtocolDeserializer(StdDeserializer<?> src) {
-            super(src);
+        public ProtocolDeserializer() {
+            super(Protocol.class);
         }
 
         @Override

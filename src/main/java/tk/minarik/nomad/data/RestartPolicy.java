@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -21,6 +23,8 @@ import java.io.IOException;
  * Created by darko on 1.9.2016..
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RestartPolicy {
 
     /**
@@ -48,7 +52,7 @@ public class RestartPolicy {
     @JsonProperty("Mode")
     @JsonSerialize(using = ModeSerializer.class)
     @JsonDeserialize(using = ModeDeserializer.class)
-    private Mode mode;
+    private Mode mode = Mode.Fail;
 
     /**
      * Mode is given as a string and controls the behavior when the task fails more than Attempts times in an Interval. Possible values are listed below:
@@ -63,20 +67,8 @@ public class RestartPolicy {
      * Serializes mode to decapitalized form
      */
     private static class ModeSerializer extends StdSerializer<Mode> {
-        public ModeSerializer(Class<Mode> t) {
-            super(t);
-        }
-
-        public ModeSerializer(JavaType type) {
-            super(type);
-        }
-
-        public ModeSerializer(Class<?> t, boolean dummy) {
-            super(t, dummy);
-        }
-
-        public ModeSerializer(StdSerializer<?> src) {
-            super(src);
+        public ModeSerializer() {
+            super(Mode.class);
         }
 
         @Override
@@ -89,16 +81,9 @@ public class RestartPolicy {
      * Deserializes mode from decapitalized form
      */
     private static class ModeDeserializer extends StdDeserializer<Mode> {
-        public ModeDeserializer(Class<?> vc) {
-            super(vc);
-        }
 
-        public ModeDeserializer(JavaType valueType) {
-            super(valueType);
-        }
-
-        public ModeDeserializer(StdDeserializer<?> src) {
-            super(src);
+        public ModeDeserializer(){
+            super(Mode.class);
         }
 
         @Override
