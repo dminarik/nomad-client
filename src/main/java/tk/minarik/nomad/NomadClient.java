@@ -655,7 +655,7 @@ public class NomadClient {
      * Initiate garbage collect in current region
      */
     public void garbageCollect() {
-        //TODO: Implement garbage collect method
+        template.put(calculateUrl("v1/system/gc"), null);
     }
 
     /**
@@ -664,14 +664,14 @@ public class NomadClient {
      * @param region Region name
      */
     public void garbageCollect(String region) {
-        //TODO: Implement garbage collect with region method
+        template.put(calculateUrl("v1/system/gc?region="+region), null);
     }
 
     /**
      * Reconcile summaries in current region
      */
     public void reconcileSummaries() {
-        //TODO: Implement reconcile summaries method
+        template.put(calculateUrl("v1/system/reconcile/summaries"), null);
     }
 
     /**
@@ -680,7 +680,7 @@ public class NomadClient {
      * @param region Region name
      */
     public void reconcileSummaries(String region) {
-        //TODO: Implement reconcile summaries with region method
+        template.put(calculateUrl("v1/system/reconcile/summaries?region="+region), null);
     }
 
     /**
